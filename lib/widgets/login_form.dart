@@ -1,3 +1,4 @@
+import 'package:bovua/services/analytics_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bovua/route/route.dart' as routes;
@@ -10,14 +11,14 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   Future signIn() async {
-   await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text, password: _passwordController.text);
+    AnalyticsService().logEvent("SignIn", {"email": _emailController.text});
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
   }
 
   @override
@@ -40,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-           TextField(
+          TextField(
             controller: _emailController,
             decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -48,17 +49,28 @@ class _LoginFormState extends State<LoginForm> {
                 hintText: "email@email.com"),
           ),
           const SizedBox(height: 20),
-           TextField(
+          TextField(
             controller: _passwordController,
             obscureText: true,
             decoration: const InputDecoration(
                 border: OutlineInputBorder(), labelText: "Password"),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                child: Text("Sign Up"),
+                child: Text("Cadastrar"),
+                onPressed: () =>
+                    Navigator.pushNamed(context, routes.signUpPage),
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              TextButton(
+                child: Text("Esqueci minha senha"),
                 onPressed: () =>
                     Navigator.pushNamed(context, routes.signUpPage),
                 style: TextButton.styleFrom(
@@ -85,5 +97,3 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 }
-
-

@@ -1,5 +1,7 @@
+import 'package:bovua/services/analytics_service.dart';
 import 'package:flutter/material.dart';
 import "package:firebase_core/firebase_core.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:bovua/route/route.dart' as route;
 
 Future main() async {
@@ -13,9 +15,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       onGenerateRoute: route.controller,
-      initialRoute: route.signInPage,
+      navigatorObservers: [
+        AnalyticsService().getAnalyticsObserver(),
+      ],
+      initialRoute: route.homePage,
     );
   }
 }

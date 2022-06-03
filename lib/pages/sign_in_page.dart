@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bovua/pages/home_page.dart';
-import 'package:bovua/widgets/logged_message.dart';
 import 'package:bovua/widgets/login_form.dart';
 
 class SignInPage extends StatefulWidget {
@@ -21,18 +18,9 @@ class _LoginPageState extends State<SignInPage> {
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Center(
-                child: StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return LoggedMessage();
-                    } else {
-                      return LoginForm();
-                    }
-                  },
-                ),
+                child: LoginForm(),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bovua/route/route.dart' as routes;
 
@@ -9,6 +10,35 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<RegisterForm> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  String? emailError;
+  String? passwordError;
+
+  Future _submit() async {
+    emailError = null;
+    passwordError = null;
+    if (_passwordController.text != _confirmPasswordController.text) {
+      setState(() {
+        passwordError = 'As Senhas devem ser iguais';
+      });
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+      Navigator.pushNamed(context, routes.homePage);
+    } catch (e) {
+      setState(() {
+        emailError = "Email ja cadastrado.";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,30 +46,38 @@ class _LoginFormState extends State<RegisterForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const TextField(
+          TextField(
+            controller: _emailController,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Email",
+                errorText: emailError,
                 hintText: "email@email.com"),
           ),
           const SizedBox(height: 20),
-          const TextField(
+          TextField(
+            controller: _passwordController,
             obscureText: true,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(), labelText: "Password"),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: "Password",
+            ),
           ),
           const SizedBox(height: 20),
-          const TextField(
+          TextField(
+            controller: _confirmPasswordController,
             obscureText: true,
             decoration: InputDecoration(
-                border: OutlineInputBorder(), labelText: "Repeat Password"),
+                border: OutlineInputBorder(),
+                labelText: "Repeat Password",
+                errorText: passwordError),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                child: Text("Sign in"),
-                onPressed: () => Navigator.pushNamed(context, routes.signInPage),
+                child: Text("Esqueci minha senha"),
+                onPressed: () => Navigator.pushNamed(context, routes.homePage),
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(
                     fontSize: 16,
@@ -50,7 +88,7 @@ class _LoginFormState extends State<RegisterForm> {
             ],
           ),
           ElevatedButton(
-              onPressed: () => print("click"),
+              onPressed: _submit,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

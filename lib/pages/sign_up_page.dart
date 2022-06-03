@@ -15,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child:  SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text('Registration'),
