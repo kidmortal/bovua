@@ -6,7 +6,14 @@ import 'package:bovua/route/route.dart' as route;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyB09MwCdq896v2qghvdJ4Qa_gayZpUk4No",
+      appId: "1:37275494111:web:b256f8f786fdb1eb492b6a",
+      messagingSenderId: "37275494111",
+      projectId: "bovua-9109a",
+    ),
+  );
   runApp(const App());
 }
 
