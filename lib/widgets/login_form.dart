@@ -14,11 +14,19 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? errorMessage;
+
   Future signIn() async {
     AnalyticsService().logEvent("SignIn", {"email": _emailController.text});
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } catch (e) {
+      setState(() {
+        errorMessage = "Email ou senha incorretos.";
+      });
+    }
   }
 
   @override
@@ -43,14 +51,17 @@ class _LoginFormState extends State<LoginForm> {
           ),
           TextField(
             controller: _emailController,
-            decoration: const InputDecoration(
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Email",
+                errorText: errorMessage,
                 hintText: "email@email.com"),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _passwordController,
+            onSubmitted: (_) => signIn(),
             obscureText: true,
             decoration: const InputDecoration(
                 border: OutlineInputBorder(), labelText: "Password"),

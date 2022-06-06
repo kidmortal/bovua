@@ -61,7 +61,29 @@ class _HomePageState extends State<HomePage> {
                 itemCount: _trips!.trips?.length,
                 itemBuilder: (context, index) {
                   final trip = _trips!.trips![index];
-                  return TripGroup(trip: trip);
+                  return Dismissible(
+                    background: Container(
+                      color: Colors.red,
+                      child: const Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    key: Key(trip.fromIata ?? ""),
+                    child: TripGroup(trip: trip),
+                    onDismissed: (direction) {
+                      // Remove the item from the data source.
+                      setState(() {
+                        _trips?.trips?.removeAt(index);
+                      });
+                    },
+                  );
                 },
               ),
             ),

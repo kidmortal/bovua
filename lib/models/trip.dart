@@ -27,7 +27,7 @@ class Trip {
   String? to;
   String? toIata;
 
-  Trip({this.from, this.to});
+  Trip({this.from = "", this.to = "", this.fromIata = "", this.toIata = ""});
 
   Trip.fromJson(Map<String, dynamic> json) {
     from = json['from'];

@@ -6,6 +6,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      onTap: (value) => print(ModalRoute.of(context)?.settings.name),
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

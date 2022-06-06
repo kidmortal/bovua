@@ -13,20 +13,25 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child:  SafeArea(
+      child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text('Registration'),
           ),
-          body:  Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 50),
-                RegisterForm(),
-              ],
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 500),
+                    child: RegisterForm(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -11,27 +11,17 @@ const String homePage = "home";
 const String settingsPage = "settings";
 const String newTrip = "new_trip";
 
-// Control page flow
-
-Route<dynamic> controller(RouteSettings settings) {
-  switch (settings.name) {
-    case homePage:
-      return MaterialPageRoute(
-          builder: (context) => StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return HomePage();
-                  } else {
-                    return SignInPage();
-                  }
-                },
-              ));
-    case signUpPage:
-      return MaterialPageRoute(builder: (context) => SignUpPage());
-    case newTrip:
-      return MaterialPageRoute(builder: (context) => NewTripPage());
-    default:
-      throw ("This shouldnt happen");
-  }
-}
+Map<String, Widget Function(BuildContext)> appRoutes = {
+  homePage: (BuildContext context) => StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HomePage();
+          } else {
+            return SignInPage();
+          }
+        },
+      ),
+  signUpPage: (BuildContext context) => SignUpPage(),
+  newTrip: (BuildContext context) => NewTripPage(),
+};

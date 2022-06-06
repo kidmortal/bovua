@@ -15,4 +15,6 @@ class PassagensService {
       throw Exception('Falha ao carregar sugestões');
     }
   }
+
+  final getAlgo = () => "Algo";
 }
