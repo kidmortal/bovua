@@ -1,9 +1,8 @@
-import 'dart:convert';
+import "package:json_annotation/json_annotation.dart";
 
-Passagens passagensFromJson(String str) => Passagens.fromJson(json.decode(str));
+part 'passagem.g.dart';
 
-String passagensToJson(Passagens data) => json.encode(data.toJson());
-
+@JsonSerializable()
 class Passagens {
   Passagens({
     this.result = const [],
@@ -11,13 +10,7 @@ class Passagens {
 
   List<List<String>> result;
 
-  factory Passagens.fromJson(Map<String, dynamic> json) => Passagens(
-        result: List<List<String>>.from(
-            json["result"].map((x) => List<String>.from(x.map((x) => x)))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "result": List<dynamic>.from(
-            result.map((x) => List<dynamic>.from(x.map((x) => x)))),
-      };
+  factory Passagens.fromJson(Map<String, dynamic> json) =>
+      _$PassagensFromJson(json);
+  Map<String, dynamic> toJson() => _$PassagensToJson(this);
 }

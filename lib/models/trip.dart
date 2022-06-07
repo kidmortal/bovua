@@ -1,3 +1,19 @@
+import "package:json_annotation/json_annotation.dart";
+
+part 'trip.g.dart';
+
+@JsonSerializable()
+class Trip {
+  String? from;
+  String? fromIata;
+  String? to;
+  String? toIata;
+
+  Trip({this.from = "", this.to = "", this.fromIata = "", this.toIata = ""});
+  factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
+  Map<String, dynamic> toJson() => _$TripToJson(this);
+}
+
 class Trips {
   List<Trip>? trips;
 
@@ -17,32 +33,6 @@ class Trips {
     if (this.trips != null) {
       data['trips'] = this.trips!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class Trip {
-  String? from;
-  String? fromIata;
-  String? to;
-  String? toIata;
-
-  Trip({this.from = "", this.to = "", this.fromIata = "", this.toIata = ""});
-
-  Trip.fromJson(Map<String, dynamic> json) {
-    from = json['from'];
-    fromIata = json['fromIata'];
-    to = json['to'];
-    toIata = json['toIata'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['from'] = this.from;
-    data['fromIata'] = this.fromIata;
-    data['to'] = this.to;
-    data['toIata'] = this.toIata;
-
     return data;
   }
 }
