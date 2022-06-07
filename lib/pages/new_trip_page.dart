@@ -13,25 +13,17 @@ class NewTripPage extends StatefulWidget {
 class _NewTripPageState extends State<NewTripPage> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PageAppBar(pageName: "New Trip"),
-        bottomNavigationBar: const BottomNavBar(),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  constraints: BoxConstraints(maxWidth: 500),
-                  child: NewTripForm(),
-                )
-              ],
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              constraints: BoxConstraints(maxWidth: 500),
+              child: NewTripForm(),
+            )
+          ],
         ),
       ),
     );

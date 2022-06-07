@@ -15,8 +15,9 @@ class GlobalConfigService {
       minimumFetchInterval: const Duration(hours: 1),
     ));
     await remoteConfig.fetchAndActivate();
-    String appName = remoteConfig.getString("app_name");
-    bool darkmode = remoteConfig.getBool("dark_mode");
-    print("App name: $appName Darkmode: $darkmode");
+  }
+
+  getAppName() {
+    return remoteConfig.getString("app_name");
   }
 }

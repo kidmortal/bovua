@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({Key? key, required this.index, required this.onTap})
+      : super(key: key);
+  final int index;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      onTap: (value) => print(ModalRoute.of(context)?.settings.name),
+      onTap: onTap,
+      currentIndex: index,
+      type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
@@ -19,6 +24,10 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.airplanemode_active_rounded),
           label: "Flights",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add),
+          label: "Add",
         ),
       ],
     );

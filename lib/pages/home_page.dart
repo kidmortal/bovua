@@ -1,5 +1,6 @@
 import 'package:bovua/models/trip.dart';
 import 'package:bovua/services/firestore_service.dart';
+import 'package:bovua/services/global_config_service.dart';
 import 'package:bovua/widgets/bottom_nav_bar.dart';
 import 'package:bovua/widgets/page_app_bar.dart';
 import 'package:bovua/widgets/trip_group.dart';
@@ -32,63 +33,42 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PageAppBar(pageName: "Home"),
-      bottomNavigationBar: const BottomNavBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: getData,
-                  child: Text("Get My Trips"),
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, "new_trip"),
-                  child: Text("Add New Trip"),
-                ),
-              ],
-            ),
-          ),
-          if (_trips != null)
-            Expanded(
-              child: ListView.builder(
-                itemCount: _trips!.trips?.length,
-                itemBuilder: (context, index) {
-                  final trip = _trips!.trips![index];
-                  return Dismissible(
-                    background: Container(
-                      color: Colors.red,
-                      child: const Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        if (_trips != null)
+          Expanded(
+            child: ListView.builder(
+              itemCount: _trips!.trips?.length,
+              itemBuilder: (context, index) {
+                final trip = _trips!.trips![index];
+                return Dismissible(
+                  background: Container(
+                    color: Colors.red,
+                    child: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    key: Key(trip.fromIata ?? ""),
-                    child: TripGroup(trip: trip),
-                    onDismissed: (direction) {
-                      // Remove the item from the data source.
-                      setState(() {
-                        _trips?.trips?.removeAt(index);
-                      });
-                    },
-                  );
-                },
-              ),
+                  ),
+                  key: Key(trip.fromIata ?? ""),
+                  child: TripGroup(trip: trip),
+                  onDismissed: (direction) {
+                    // Remove the item from the data source.
+                    setState(() {
+                      _trips?.trips?.removeAt(index);
+                    });
+                  },
+                );
+              },
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }
