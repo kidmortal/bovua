@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:bovua/route/route.dart' as route;
 
 class NewTripForm extends StatefulWidget {
   const NewTripForm({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class _NewTripFormState extends State<NewTripForm> {
     if (FirebaseAuth.instance.currentUser != null) {
       await FirestoreService()
           .addTripToUser(FirebaseAuth.instance.currentUser?.uid ?? "", trip);
+      Navigator.pushNamed(context, route.homePage);
     }
   }
 
