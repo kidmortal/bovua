@@ -1,32 +1,67 @@
+import 'package:bovua/models/passagem.dart';
 import 'package:bovua/models/trip.dart';
+import 'package:bovua/services/passagem_service.dart';
 import 'package:flutter/material.dart';
 
-class TripGroup extends StatelessWidget {
+class TripGroup extends StatefulWidget {
   TripGroup({Key? key, required this.trip}) : super(key: key);
-
   FirestoreTrip trip;
 
   @override
+  State<TripGroup> createState() => _TripGroupState();
+}
+
+class _TripGroupState extends State<TripGroup> {
+  int flightCount = 0;
+  List<PassagemTrip>? flights;
+
+  onGroupPressed() async {}
+
+  onSearchPressed() async {
+    final flights = await PassagemService.getFlights(
+        widget.trip.fromIata!, widget.trip.toIata!);
+    setState(() {
+      this.flights = flights;
+      this.flightCount = flights?.length ?? 0;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Group(
-            airport: trip.from,
-            iata: trip.fromIata,
+    return TextButton(
+      onPressed: onGroupPressed,
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                flightCount.toString(),
+                style: TextStyle(fontSize: 24),
+              ),
+              Group(
+                airport: widget.trip.from,
+                iata: widget.trip.fromIata,
+              ),
+              Icon(
+                Icons.arrow_forward,
+                color: Colors.blue.shade800,
+                size: 32,
+              ),
+              Group(
+                airport: widget.trip.to,
+                iata: widget.trip.toIata,
+              ),
+              IconButton(
+                onPressed: onSearchPressed,
+                color: Colors.blue,
+                icon: const Icon(Icons.search),
+              ),
+            ],
           ),
-          Icon(
-            Icons.arrow_forward,
-            color: Colors.blue.shade800,
-            size: 32,
-          ),
-          Group(
-            airport: trip.to,
-            iata: trip.toIata,
-          ),
-        ],
+          // FlightList(trips: flights),
+        ]),
       ),
     );
   }
@@ -43,16 +78,17 @@ class Group extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            child: Text(
-              airport ?? "",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade700,
-              ),
+        SizedBox(
+          width: 100,
+          child: Text(
+            airport ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blue.shade700,
             ),
-            constraints: BoxConstraints(maxWidth: 150)),
+          ),
+        ),
         SizedBox(height: 12),
         Text(
           iata ?? "",
@@ -62,6 +98,26 @@ class Group extends StatelessWidget {
               color: Colors.blue.shade600),
         )
       ],
+    );
+  }
+}
+
+class FlightList extends StatelessWidget {
+  FlightList({Key? key, this.trips}) : super(key: key);
+
+  List<PassagemTrip>? trips;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: trips?.length,
+      itemBuilder: ((context, index) {
+        final trip = trips?[index];
+        return Container(
+          child: Text(trip?.search_url ?? ""),
+        );
+      }),
     );
   }
 }

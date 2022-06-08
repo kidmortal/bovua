@@ -1,5 +1,5 @@
 import 'package:bovua/models/trip.dart';
-import 'package:bovua/services/passagens_service.dart';
+import 'package:bovua/services/suggestion_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -36,7 +36,7 @@ class AutoComplete extends StatelessWidget {
           border: OutlineInputBorder(),
         ),
       ),
-      suggestionsCallback: PassagensService.getSuggestions,
+      suggestionsCallback: SuggestionService.getSuggestions,
       itemBuilder: (context, suggestion) {
         final List<String> suggest = suggestion;
         return ListTile(
