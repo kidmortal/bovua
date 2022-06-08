@@ -1,6 +1,9 @@
 import 'package:bovua/models/trip.dart';
+import 'package:bovua/services/firestore_service.dart';
 import 'package:bovua/services/passagens_service.dart';
 import 'package:bovua/widgets/auto_complete.dart';
+import 'package:bovua/widgets/trip_label.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -14,26 +17,56 @@ class NewTripForm extends StatefulWidget {
 }
 
 class _NewTripFormState extends State<NewTripForm> {
-  Trips? _trips;
+  FirestoreTrips? _trips;
+  String tripOrigin = "Select Origin";
+  String tripOriginIata = "";
+  String tripDestination = "Select destination";
+  String tripDestinationIata = "";
 
   Future createTrip() async {
-    var Response = await PassagensService.getSuggestions("Guaru");
-    print(Response[0][1]);
+    final trip = FirestoreTrip(
+      from: tripOrigin,
+      fromIata: tripOriginIata,
+      to: tripDestination,
+      toIata: tripDestinationIata,
+    );
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirestoreService()
+          .addTripToUser(FirebaseAuth.instance.currentUser?.uid ?? "", trip);
+    }
+  }
+
+  selectOption(String iata, String description) {
+    if (tripOriginIata == "") {
+      setState(() {
+        tripOrigin = description;
+        tripOriginIata = iata;
+      });
+    } else {
+      setState(() {
+        tripDestination = description;
+        tripDestinationIata = iata;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TripLabel(label: tripOriginIata, description: tripOrigin),
+            Icon(Icons.arrow_forward),
+            TripLabel(label: tripDestinationIata, description: tripDestination),
+          ],
+        ),
+        const SizedBox(height: 20),
         AutoComplete(
           label: "Origem",
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Icon(Icons.arrow_downward),
-        ),
-        AutoComplete(
-          label: "Destino",
+          onSelected: selectOption,
         ),
         const SizedBox(height: 20),
         ElevatedButton(

@@ -1,3 +1,4 @@
+import 'package:bovua/models/trip.dart';
 import 'package:bovua/services/passagens_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AutoComplete extends StatelessWidget {
-  AutoComplete({Key? key, required this.label}) : super(key: key);
+  AutoComplete({
+    Key? key,
+    required this.label,
+    required this.onSelected,
+  }) : super(key: key);
 
+  final Function(String iata, String description) onSelected;
   String label;
 
   @override
@@ -38,7 +44,7 @@ class AutoComplete extends StatelessWidget {
         );
       },
       onSuggestionSelected: (suggestion) {
-        print(suggestion);
+        onSelected(suggestion[0], suggestion[1]);
       },
     );
   }

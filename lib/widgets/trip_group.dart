@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class TripGroup extends StatelessWidget {
   TripGroup({Key? key, required this.trip}) : super(key: key);
 
-  Trip trip;
+  FirestoreTrip trip;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.all(16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Group(
             airport: trip.from,
