@@ -103,21 +103,36 @@ class Group extends StatelessWidget {
   }
 }
 
-class FlightList extends StatelessWidget {
+class FlightList extends StatefulWidget {
   FlightList({Key? key, required this.trips}) : super(key: key);
 
   List<PassagemTrip> trips;
 
   @override
+  State<FlightList> createState() => _FlightListState();
+}
+
+class _FlightListState extends State<FlightList> {
+  @override
   Widget build(BuildContext context) {
-    return trips.isEmpty
-        ? Center(child: Text('No flights'))
-        : ListView.builder(
-            shrinkWrap: true,
-            itemCount: trips.length,
-            itemBuilder: (context, index) {
-              final trip = trips[index];
-              return Trip(trip: trip);
-            });
+    return ExpansionTile(
+      title: Text("Flight List"),
+      children: [
+        widget.trips.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('No flights'),
+                ),
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget.trips.length,
+                itemBuilder: (context, index) {
+                  final trip = widget.trips[index];
+                  return Trip(trip: trip);
+                })
+      ],
+    );
   }
 }

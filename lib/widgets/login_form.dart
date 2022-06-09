@@ -3,6 +3,7 @@ import 'package:bovua/services/analytics_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bovua/route/route.dart' as routes;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -14,6 +15,12 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   String? errorMessage;
 
@@ -27,6 +34,16 @@ class _LoginFormState extends State<LoginForm> {
       setState(() {
         errorMessage = "Email ou senha incorretos.";
       });
+    }
+  }
+
+  Future<void> googleSignIn() async {
+    try {
+      final data = await _googleSignIn.signIn();
+      print(data?.photoUrl);
+      print(data?.email);
+    } catch (error) {
+      print(error);
     }
   }
 
@@ -95,15 +112,27 @@ class _LoginFormState extends State<LoginForm> {
             ],
           ),
           ElevatedButton(
-              onPressed: signIn,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Sign in"),
-                  SizedBox(width: 10),
-                  Icon(Icons.rocket),
-                ],
-              ))
+            onPressed: signIn,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text("Sign in"),
+                SizedBox(width: 10),
+                Icon(Icons.rocket),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: googleSignIn,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text("Google"),
+                SizedBox(width: 10),
+                Icon(Icons.rocket),
+              ],
+            ),
+          ),
         ],
       ),
     );

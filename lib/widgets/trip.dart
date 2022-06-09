@@ -28,11 +28,22 @@ class Trip extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.today),
-                  Text(Utils.isoStringToDate(trip.departure_date)),
+                  Row(
+                    children: [
+                      Icon(Icons.today),
+                      Text(Utils.isoStringToDate(trip.departure_date)),
+                    ],
+                  ),
                   Icon(Icons.arrow_forward),
-                  Icon(Icons.today),
-                  Text(Utils.isoStringToDate(trip.return_date)),
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        Icon(Icons.today),
+                        Text(Utils.isoStringToDate(trip.return_date)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -45,12 +56,15 @@ class Trip extends StatelessWidget {
                       Text(trip.lowest_company ?? ""),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Icon(Icons.airplane_ticket_rounded),
-                      SizedBox(width: 5),
-                      Text("R\$" + trip.total.toString()),
-                    ],
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        Icon(Icons.airplane_ticket_rounded),
+                        SizedBox(width: 5),
+                        Text("R\$" + trip.total.toString()),
+                      ],
+                    ),
                   ),
                 ],
               )
