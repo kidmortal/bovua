@@ -3,6 +3,7 @@ import 'package:bovua/services/analytics_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bovua/route/route.dart' as routes;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginForm extends StatefulWidget {
@@ -128,12 +129,21 @@ class _LoginFormState extends State<LoginForm> {
           ),
           ElevatedButton(
             onPressed: signInWithGoogle,
+            style: ElevatedButton.styleFrom(primary: Colors.white),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Text("Google"),
+                Image(
+                  image: AssetImage("assets/images/google_logo.png"),
+                  height: 25.0,
+                ),
                 SizedBox(width: 10),
-                Icon(Icons.rocket),
+                Text(
+                  "Sign in with google",
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                )
               ],
             ),
           ),
