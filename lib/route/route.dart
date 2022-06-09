@@ -1,6 +1,7 @@
 // Routes names
 import 'package:bovua/pages/flights_page.dart';
 import 'package:bovua/pages/new_trip_page.dart';
+import 'package:bovua/pages/web_page.dart';
 import 'package:bovua/services/global_config_service.dart';
 import 'package:bovua/widgets/bottom_nav_bar.dart';
 import 'package:bovua/widgets/page_app_bar.dart';
@@ -11,14 +12,8 @@ import 'package:bovua/pages/sign_in_page.dart';
 import 'package:bovua/pages/sign_up_page.dart';
 import "package:bovua/pages/profile_page.dart";
 
-const String signUpPage = "register";
-const String homePage = "home";
-const String profilePage = "profile";
-const String settingsPage = "settings";
-const String newTrip = "new_trip";
-
 Map<String, Widget Function(BuildContext)> appRoutes = {
-  homePage: (BuildContext context) => StreamBuilder<User?>(
+  HomePage.routeName: (BuildContext context) => StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -28,10 +23,10 @@ Map<String, Widget Function(BuildContext)> appRoutes = {
           }
         },
       ),
-  signUpPage: (BuildContext context) => SignUpPage(),
-  profilePage: (BuildContext context) =>
-      PageWithNavBar(Children: ProfilePage()),
-  newTrip: (BuildContext context) => PageWithNavBar(Children: NewTripPage()),
+  SignUpPage.routeName: (BuildContext context) => SignUpPage(),
+  NewTripPage.routeName: (BuildContext context) =>
+      PageWithNavBar(Children: NewTripPage()),
+  WebPage.routeName: (BuildContext context) => WebPage(),
 };
 
 class PageWithNavBar extends StatefulWidget {

@@ -4,6 +4,8 @@ import 'package:bovua/widgets/register_form.dart';
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
+  static const routeName = 'register';
+
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }

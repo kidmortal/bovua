@@ -1,3 +1,4 @@
+import 'package:bovua/pages/home_page.dart';
 import 'package:bovua/route/route.dart' as route;
 import 'package:bovua/services/analytics_service.dart';
 import 'package:bovua/services/firebase_messaging_service.dart';
@@ -35,7 +36,7 @@ class _AppState extends State<App> {
       navigatorObservers: [
         AnalyticsService().getAnalyticsObserver(),
       ],
-      initialRoute: route.homePage,
+      initialRoute: HomePage.routeName,
       routes: route.appRoutes,
     );
   }

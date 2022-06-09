@@ -1,3 +1,4 @@
+import 'package:bovua/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bovua/route/route.dart' as routes;
@@ -31,7 +32,7 @@ class _LoginFormState extends State<RegisterForm> {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-      Navigator.pushNamed(context, routes.homePage);
+      Navigator.pushNamed(context, HomePage.routeName);
     } catch (e) {
       setState(() {
         emailError = "Email ja cadastrado.";
@@ -77,7 +78,8 @@ class _LoginFormState extends State<RegisterForm> {
             children: [
               TextButton(
                 child: Text("Esqueci minha senha"),
-                onPressed: () => Navigator.pushNamed(context, routes.homePage),
+                onPressed: () =>
+                    Navigator.pushNamed(context, HomePage.routeName),
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(
                     fontSize: 16,

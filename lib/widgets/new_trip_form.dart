@@ -1,6 +1,7 @@
 import 'package:bovua/models/trip.dart';
+import 'package:bovua/pages/home_page.dart';
+import 'package:bovua/route/route.dart' as route;
 import 'package:bovua/services/firestore_service.dart';
-import 'package:bovua/services/suggestion_service.dart';
 import 'package:bovua/widgets/auto_complete.dart';
 import 'package:bovua/widgets/trip_label.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bovua/route/route.dart' as route;
 
 class NewTripForm extends StatefulWidget {
   const NewTripForm({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _NewTripFormState extends State<NewTripForm> {
     if (FirebaseAuth.instance.currentUser != null) {
       await FirestoreService()
           .addTripToUser(FirebaseAuth.instance.currentUser?.uid ?? "", trip);
-      Navigator.pushNamed(context, route.homePage);
+      Navigator.pushNamed(context, HomePage.routeName);
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:bovua/pages/sign_up_page.dart';
 import 'package:bovua/services/analytics_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
               TextButton(
                 child: Text("Cadastrar"),
                 onPressed: () =>
-                    Navigator.pushNamed(context, routes.signUpPage),
+                    Navigator.pushNamed(context, SignUpPage.routeName),
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(
                     fontSize: 16,
@@ -83,7 +84,7 @@ class _LoginFormState extends State<LoginForm> {
               TextButton(
                 child: Text("Esqueci minha senha"),
                 onPressed: () =>
-                    Navigator.pushNamed(context, routes.signUpPage),
+                    Navigator.pushNamed(context, SignUpPage.routeName),
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(
                     fontSize: 16,

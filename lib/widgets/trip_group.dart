@@ -1,6 +1,7 @@
 import 'package:bovua/models/passagem.dart';
 import 'package:bovua/models/trip.dart';
 import 'package:bovua/services/passagem_service.dart';
+import 'package:bovua/widgets/trip.dart';
 import 'package:flutter/material.dart';
 
 class TripGroup extends StatefulWidget {
@@ -13,7 +14,7 @@ class TripGroup extends StatefulWidget {
 
 class _TripGroupState extends State<TripGroup> {
   int flightCount = 0;
-  List<PassagemTrip>? flights;
+  List<PassagemTrip> flights = [];
 
   onGroupPressed() async {}
 
@@ -22,7 +23,7 @@ class _TripGroupState extends State<TripGroup> {
         widget.trip.fromIata!, widget.trip.toIata!);
     setState(() {
       this.flights = flights;
-      this.flightCount = flights?.length ?? 0;
+      this.flightCount = flights.length;
     });
   }
 
@@ -60,7 +61,7 @@ class _TripGroupState extends State<TripGroup> {
               ),
             ],
           ),
-          // FlightList(trips: flights),
+          FlightList(trips: flights),
         ]),
       ),
     );
@@ -103,21 +104,20 @@ class Group extends StatelessWidget {
 }
 
 class FlightList extends StatelessWidget {
-  FlightList({Key? key, this.trips}) : super(key: key);
+  FlightList({Key? key, required this.trips}) : super(key: key);
 
-  List<PassagemTrip>? trips;
+  List<PassagemTrip> trips;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: trips?.length,
-      itemBuilder: ((context, index) {
-        final trip = trips?[index];
-        return Container(
-          child: Text(trip?.search_url ?? ""),
-        );
-      }),
-    );
+    return trips.isEmpty
+        ? Center(child: Text('No flights'))
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: trips.length,
+            itemBuilder: (context, index) {
+              final trip = trips[index];
+              return Trip(trip: trip);
+            });
   }
 }

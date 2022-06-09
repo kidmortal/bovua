@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class NewTripPage extends StatefulWidget {
   const NewTripPage({Key? key}) : super(key: key);
 
+  static const routeName = 'new_trip';
+
   @override
   State<NewTripPage> createState() => _NewTripPageState();
 }
