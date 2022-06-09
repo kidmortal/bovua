@@ -8,7 +8,8 @@ class GlobalConfigService {
   init() async {
     await remoteConfig.setDefaults(const {
       "app_name": "Bovua",
-      "id": 1000,
+      "bottom_nav_icons_color": "#008bff",
+      "bottom_nav_background_color": "#fafafa",
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
@@ -19,5 +20,13 @@ class GlobalConfigService {
 
   getAppName() {
     return remoteConfig.getString("app_name");
+  }
+
+  getBottomNavBackgroundColor() {
+    return remoteConfig.getString("bottom_nav_background_color");
+  }
+
+  getBottomNavIconColors() {
+    return remoteConfig.getString("bottom_nav_icons_color");
   }
 }

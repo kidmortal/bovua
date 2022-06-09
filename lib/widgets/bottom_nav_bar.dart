@@ -1,3 +1,5 @@
+import 'package:bovua/services/global_config_service.dart';
+import 'package:bovua/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -12,6 +14,10 @@ class BottomNavBar extends StatelessWidget {
       onTap: onTap,
       currentIndex: index,
       type: BottomNavigationBarType.fixed,
+      backgroundColor:
+          hexToColor(GlobalConfigService().getBottomNavBackgroundColor()),
+      selectedItemColor:
+          hexToColor(GlobalConfigService().getBottomNavIconColors()),
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
