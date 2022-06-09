@@ -15,12 +15,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  GoogleSignIn googleSignIn = GoogleSignIn();
 
   String? errorMessage;
 
@@ -37,11 +32,20 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  Future<void> googleSignIn() async {
+  Future<void> signInWithGoogle() async {
     try {
-      final data = await _googleSignIn.signIn();
-      print(data?.photoUrl);
-      print(data?.email);
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+        FirebaseAuth.instance.signInWithCredential(credential);
+      }
     } catch (error) {
       print(error);
     }
@@ -123,7 +127,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           ElevatedButton(
-            onPressed: googleSignIn,
+            onPressed: signInWithGoogle,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
