@@ -11,9 +11,16 @@ class FirestoreService {
   }
 
   addTripToUser(String userId, FirestoreTrip trip) async {
-    await instance.collection('users').doc(userId).update({
-      'trips': FieldValue.arrayUnion([trip.toJson()]),
-    });
+    final Response = await instance.collection('users').doc(userId).get();
+    if (Response.exists) {
+      await instance.collection('users').doc(userId).update({
+        'trips': FieldValue.arrayUnion([trip.toJson()]),
+      });
+    } else {
+      await instance.collection('users').doc(userId).set({
+        'trips': FieldValue.arrayUnion([trip.toJson()]),
+      });
+    }
   }
 
   deleteTrip(String userId, FirestoreTrip trip) async {
