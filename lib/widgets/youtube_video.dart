@@ -1,3 +1,4 @@
+import 'package:bovua/services/global_config_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,17 +12,23 @@ class YoutubeVideo extends StatefulWidget {
 }
 
 class _YoutubeVideoState extends State<YoutubeVideo> {
-  List<String> playlist = ['FSRCjZ7q58w', 'hmRihdzObbg'];
+  List<String> playlist = GlobalConfigService().getYoutubeVideosPlaylist();
   int currentIndex = 0;
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'FSRCjZ7q58w',
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: false,
-      loop: true,
-    ),
-  );
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: playlist[0],
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        loop: true,
+      ),
+    );
+  }
 
   handleSkipMusic() {
     setState(() {
