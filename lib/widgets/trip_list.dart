@@ -8,19 +8,19 @@ import 'package:flutter/src/widgets/framework.dart';
 class TripList extends StatelessWidget {
   TripList({
     Key? key,
-    this.trips,
+    required this.trips,
     required this.onDismissed,
   }) : super(key: key);
 
-  FirestoreTrips? trips;
+  List<FirestoreTrip> trips;
   final Function(FirestoreTrip trip) onDismissed;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: trips!.trips?.length,
+      itemCount: trips.length,
       itemBuilder: (context, index) {
-        final trip = trips!.trips![index];
+        final trip = trips[index];
         return Dismissible(
           direction: DismissDirection.startToEnd,
           background: Container(

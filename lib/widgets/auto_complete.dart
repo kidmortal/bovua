@@ -6,7 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class AutoComplete extends StatelessWidget {
+class AutoComplete extends StatefulWidget {
   AutoComplete({
     Key? key,
     required this.label,
@@ -15,6 +15,13 @@ class AutoComplete extends StatelessWidget {
 
   final Function(String iata, String description) onSelected;
   String label;
+
+  @override
+  State<AutoComplete> createState() => _AutoCompleteState();
+}
+
+class _AutoCompleteState extends State<AutoComplete> {
+  final TextEditingController typeAheadController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +38,9 @@ class AutoComplete extends StatelessWidget {
       ),
       debounceDuration: Duration(milliseconds: 500),
       textFieldConfiguration: TextFieldConfiguration(
+        controller: typeAheadController,
         decoration: InputDecoration(
-          labelText: label,
+          labelText: widget.label,
           border: OutlineInputBorder(),
         ),
       ),
@@ -44,7 +52,8 @@ class AutoComplete extends StatelessWidget {
         );
       },
       onSuggestionSelected: (suggestion) {
-        onSelected(suggestion[0], suggestion[1]);
+        widget.onSelected(suggestion[0], suggestion[1]);
+        typeAheadController.text = "";
       },
     );
   }

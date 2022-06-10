@@ -67,7 +67,7 @@ class _NewTripFormState extends State<NewTripForm> {
         ),
         const SizedBox(height: 20),
         AutoComplete(
-          label: "Origem",
+          label: "Digite para buscar aeroportos",
           onSelected: selectOption,
         ),
         const SizedBox(height: 20),

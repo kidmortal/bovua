@@ -1,4 +1,5 @@
 import 'package:bovua/models/trip.dart';
+import 'package:bovua/pages/new_trip_page.dart';
 import 'package:bovua/services/firestore_service.dart';
 import 'package:bovua/services/global_config_service.dart';
 import 'package:bovua/widgets/bottom_nav_bar.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  FirestoreTrips? _trips;
+  FirestoreTrips _trips = FirestoreTrips(trips: []);
 
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
       await FirestoreService().deleteTrip(userId, trip);
+      setState(() => _trips = FirestoreTrips(trips: []));
       await getData();
     }
   }
@@ -56,13 +58,19 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (_trips != null)
-            Expanded(
-              child: TripList(
-                trips: _trips,
-                onDismissed: (trip) => deleteTrip(trip),
-              ),
-            ),
+          _trips.trips!.isNotEmpty
+              ? Expanded(
+                  child: TripList(
+                    trips: _trips.trips!,
+                    onDismissed: (trip) => deleteTrip(trip),
+                  ),
+                )
+              : Center(
+                  child: SizedBox(
+                    width: 200,
+                    child: Text("You havent added any trips yet."),
+                  ),
+                )
         ],
       ),
     );
