@@ -127,6 +127,7 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           ),
+          SizedBox(height: 10),
           ElevatedButton(
             onPressed: signInWithGoogle,
             style: ElevatedButton.styleFrom(primary: Colors.white),

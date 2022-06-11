@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -33,7 +32,6 @@ class GlobalConfigService {
   }
 
   List<String> getYoutubeVideosPlaylist() {
-    print(remoteConfig.getString("youtube_video_playlist"));
     final json = jsonDecode(remoteConfig.getString("youtube_video_playlist"));
     final playlist = List<String>.from(json);
     return playlist;
