@@ -1,8 +1,10 @@
 // Routes names
+import 'package:bovua/config/service_locator.dart';
 import 'package:bovua/pages/flights_page.dart';
 import 'package:bovua/pages/new_trip_page.dart';
 import 'package:bovua/pages/web_page.dart';
 import 'package:bovua/services/global_config_service.dart';
+import 'package:bovua/stores/page_store.dart';
 import 'package:bovua/widgets/bottom_nav_bar.dart';
 import 'package:bovua/widgets/page_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ import 'package:bovua/pages/home_page.dart';
 import 'package:bovua/pages/sign_in_page.dart';
 import 'package:bovua/pages/sign_up_page.dart';
 import "package:bovua/pages/profile_page.dart";
+import 'package:mobx/mobx.dart';
 
 Map<String, Widget Function(BuildContext)> appRoutes = {
   HomePage.routeName: (BuildContext context) => StreamBuilder<User?>(
@@ -38,7 +41,18 @@ class PageWithNavBar extends StatefulWidget {
 }
 
 class _PageWithNavBarState extends State<PageWithNavBar> {
+  final pageStore = getIt<PageStore>();
   int pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // define an observable to watch, and the callback for when that observable changes
+    reaction(
+      (_) => pageStore.page,
+      (int page) => setState(() => pageIndex = page),
+    );
+  }
 
   final childrens = [
     const HomePage(),
@@ -47,7 +61,7 @@ class _PageWithNavBarState extends State<PageWithNavBar> {
     const NewTripPage(),
   ];
 
-  navigate(int index) => setState(() => pageIndex = index);
+  navigate(int index) => pageStore.setPage(index);
 
   @override
   Widget build(BuildContext context) {

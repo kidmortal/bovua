@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -70,6 +67,18 @@ class DefaultFirebaseOptions {
     messagingSenderId: '37275494111',
     projectId: 'bovua-9109a',
     storageBucket: 'bovua-9109a.appspot.com',
+    androidClientId: '37275494111-n5tbrf9tokdrhc59jrqd9b82jjr52k0c.apps.googleusercontent.com',
+    iosClientId: '37275494111-4el52r5d3inj9i7m63n88t2up2ip9v9q.apps.googleusercontent.com',
+    iosBundleId: 'com.kidmortal.bovua',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBv7PWvqeRtvYdTb1jUewJNjzSwUU2Oce4',
+    appId: '1:37275494111:ios:da7f06fed8a91c9c492b6a',
+    messagingSenderId: '37275494111',
+    projectId: 'bovua-9109a',
+    storageBucket: 'bovua-9109a.appspot.com',
+    androidClientId: '37275494111-n5tbrf9tokdrhc59jrqd9b82jjr52k0c.apps.googleusercontent.com',
     iosClientId: '37275494111-4el52r5d3inj9i7m63n88t2up2ip9v9q.apps.googleusercontent.com',
     iosBundleId: 'com.kidmortal.bovua',
   );

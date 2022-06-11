@@ -1,3 +1,4 @@
+import 'package:bovua/config/service_locator.dart';
 import 'package:bovua/pages/home_page.dart';
 import 'package:bovua/route/route.dart' as route;
 import 'package:bovua/services/analytics_service.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocators();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
